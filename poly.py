@@ -97,6 +97,7 @@ class Node:
 
 
 class LinkedList:
+    '''DataStructure'''
     def __init__(self):
         # You are also welcome to use a sentinel/dummy node!
         # It is definitely recommended, which will we learn more
@@ -112,7 +113,12 @@ class LinkedList:
     # If a term with that exponent already exists, add the coefficients together.
     # You must keep the terms in descending order by exponent.
     def insert_term(self, coeff, exp):
-        pass
+        '''Adding terms'''
+        if self.head is None:
+            self.head = Node(coeff, exp, None)
+
+        print(self.head.coeff)
+
 
     # Add a polynomial p to the polynomial and return the resulting polynomial as a new linked list.
     def add(self, p):
@@ -128,12 +134,28 @@ class LinkedList:
 
 
 def main():
+    '''Main Functions'''
     # read data from stdin (terminal/file) using input() and create polynomial p
-
+    p = LinkedList()
+    iterate = int(input())
+    for _ in range(iterate):
+        temp = input().split(" ")
+        coeff = int(temp[0])
+        exp = int(temp[1])
+        # print(coeff, exp)
+        p.insert_term(coeff, exp)
+    input()
     # read data from stdin (terminal/file) using input() and create polynomial q
-
+    q = LinkedList()
+    iterate = int(input())
+    for _ in range(iterate):
+        temp = input().split(" ")
+        coeff = int(temp[0])
+        exp = int(temp[1])
+        # print(coeff, exp)
+        q.insert_term(coeff, exp)
     # get sum of p and q as a new linked list and print sum
-
+    pass
     # get product of p and q as a new linked list and print product
     pass
 

@@ -108,21 +108,60 @@ class LinkedList:
         # dummy node in your calculation, it will throw an error.
         # self.dummy = Node(None, None)
         self.head = None
+        self.size = 0
 
     # Insert the term with the coefficient coeff and exponent exp into the polynomial.
     # If a term with that exponent already exists, add the coefficients together.
     # You must keep the terms in descending order by exponent.
     def insert_term(self, coeff, exp):
         '''Adding terms'''
+        # print("adding: ", coeff, " and ", exp)
         if self.head is None:
-            self.head = Node(coeff, exp, None)
+            self.head = Node(coeff, exp)
+            # print("first term:", self.head)
+            return
 
-        print(self.head.coeff)
+        if exp > self.head.exp:
+            temp_node = Node(coeff, exp)
+            temp_node.next = self.head
+            self.head = temp_node
+            # print("higher exp", self.head, "and next is: ", self.head.next)
+            return
+
+        temp = self.head
+        previous = None
+        while temp and exp < temp.exp:
+            temp = temp.next
+            if previous is None:
+                previous = self.head
+            else:
+                previous = previous.next
+        temp_node = Node(coeff, exp, previous.next)
+        previous.next = temp_node
+        return
 
 
     # Add a polynomial p to the polynomial and return the resulting polynomial as a new linked list.
     def add(self, p):
-        pass
+        '''adding polynomials'''
+        temp = self.head
+        other = p.head
+        while temp or other:
+            if temp.exp > other.exp:
+                if temp.next.exp < other.exp:
+                    self.insert_term(other.coeff, other.exp)
+                    temp = temp.next
+                    other = other.next
+                else:
+                    temp = temp.next
+            elif temp.exp < other.exp:
+                self.insert_term(other.coeff, other.exp)
+                other = other.next
+            if temp.exp == other.exp:
+                temp.coeff += other.coeff
+            temp = temp.next
+        return
+
 
     # Multiply a polynomial p with the polynomial and return the product as a new linked list.
     def mult(self, p):
@@ -130,8 +169,20 @@ class LinkedList:
 
     # Return a string representation of the polynomial.
     def __str__(self):
-        pass
+        '''To string'''
+        string_output = ""
+        temp = self.head
+        size = 0
+        while temp:
+            size += 1
+            temp = temp.next
 
+        temp = self.head
+        for _ in range(size - 1):
+            string_output = string_output + str(temp) + " + "
+            temp = temp.next
+        string_output = string_output + str(temp)
+        return string_output
 
 def main():
     '''Main Functions'''
@@ -144,6 +195,8 @@ def main():
         exp = int(temp[1])
         # print(coeff, exp)
         p.insert_term(coeff, exp)
+
+    # print("hi", p)
     input()
     # read data from stdin (terminal/file) using input() and create polynomial q
     q = LinkedList()
@@ -155,9 +208,11 @@ def main():
         # print(coeff, exp)
         q.insert_term(coeff, exp)
     # get sum of p and q as a new linked list and print sum
-    pass
+    q.add(p)
+    print(q)
     # get product of p and q as a new linked list and print product
-    pass
+    q.mult(p)
+    print(q)
 
 
 if __name__ == "__main__":

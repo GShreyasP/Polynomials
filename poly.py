@@ -118,7 +118,7 @@ class LinkedList:
         # print("adding: ", coeff, " and ", exp)
         if coeff == 0:
             return
-        
+
         if self.head is None:
             self.head = Node(coeff, exp)
             # print("first term:", self.head)
@@ -170,6 +170,7 @@ class LinkedList:
         iterator = result.head
         if result.size == 1 and iterator.coeff == 0:
             result.head = None
+            result.size = 0
             return result
 
         result2 = LinkedList()
@@ -182,11 +183,34 @@ class LinkedList:
     # Multiply a polynomial p with the polynomial and return the product as a new linked list.
     def mult(self, p):
         '''Multiplication method'''
-        pass
-    
+        result = LinkedList()
+        temp = self.head
+        other = p.head
+        while temp:
+            other = p.head
+            while other:
+                result.insert_term(temp.coeff * other.coeff, temp.exp + other.exp)
+                other = other.next
+            temp = temp.next
+
+        iterator = result.head
+        if result.size == 1 and iterator.coeff == 0:
+            result.head = None
+            result.size = 0
+            return result
+
+        result2 = LinkedList()
+        while iterator:
+            if iterator.coeff != 0:
+                result2.insert_term(iterator.coeff, iterator.exp)
+            iterator = iterator.next
+        return result2 
+
     # Return a string representation of the polynomial.
     def __str__(self):
         '''To string'''
+        if self.size == 0:
+            return ""
         string_output = ""
         temp = self.head
         size = 0

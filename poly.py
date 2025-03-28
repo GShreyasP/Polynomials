@@ -204,7 +204,7 @@ class LinkedList:
             if iterator.coeff != 0:
                 result2.insert_term(iterator.coeff, iterator.exp)
             iterator = iterator.next
-        return result2 
+        return result2
 
     # Return a string representation of the polynomial.
     def __str__(self):
@@ -252,7 +252,7 @@ def main():
     print(q.add(p))
     # print(q)
     # get product of p and q as a new linked list and print product
-    # q.mult(p)
+    print(q.mult(p))
     # print(q)
 
 
